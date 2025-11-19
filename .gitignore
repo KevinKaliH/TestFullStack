@@ -1,0 +1,93 @@
+############################
+#       .NET / C#         #
+############################
+
+# Build folders
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+*.bak
+
+# Publish output
+publish/
+AppPackages/
+BundleArtifacts/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+
+############################
+#       React / Node       #
+############################
+
+# Node dependencies
+node_modules/
+
+# Build output (React)
+dist/
+build/
+
+# Local dev environment
+*.local
+.env
+.env.*       # ENV files except the ones you want to commit
+
+# Yarn / npm logs
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
+
+# Cache folders
+.npm/
+.yarn/
+.pnp.*
+.pnpm-store/
+.cache/
+
+
+############################
+#         General          #
+############################
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+*.orig
+
+# VSCode 
+.vscode/
+.history/
+
+# Coverage reports
+coverage/
+lcov-report/
+coverage-final.json
