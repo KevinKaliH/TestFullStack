@@ -4,7 +4,7 @@ import AppLayout from "@components/layout/AppLayout";
 import EventType from "@modules/eventType/EventType";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConstAppRoute } from "@const/appRoutes.const";
-import Home from "@modules/home/Home";
+import Home from "@modules/client/Client";
 import ErrorModalProvider from "@shared/contexts/ErrorModalProvider";
 import { GlobalLoadingProvider } from "@shared/contexts/GlobalLoadingProvider";
 

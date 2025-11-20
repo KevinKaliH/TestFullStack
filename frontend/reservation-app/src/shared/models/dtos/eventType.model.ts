@@ -1,15 +1,10 @@
-import type { BaseResponseModel } from "./baseResponse.model";
+import type { BaseDataModel, BaseResponseModel } from "./baseResponse.model";
 
-export interface EventTypeResponse extends BaseResponseModel {
-  data: EventTypeModel[];
-}
+export interface EventTypeResponse
+  extends BaseResponseModel<EventTypeModel[]> {}
 
-export interface EventTypeModel {
+export interface EventTypeModel extends BaseDataModel {
   name: string;
   description: string;
   reservations: any;
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  isActive: boolean;
 }

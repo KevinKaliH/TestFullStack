@@ -1,36 +1,31 @@
 import { Button, Col, Row } from "react-bootstrap";
 import Loading from "@components/Loading";
-import columnsEventType from "./utils/columnsEventType";
 import TableContainer from "@shared/components/TableLayout/TableContainer";
-import ModalEventTypeForm from "./components/ModalEventTypeForm/ModalEventTypeForm";
-import ConfirmDeleteModal from "@shared/components/ConfirmDeleteModal";
-import useCrudPage from "@shared/hooks/useCrudPage";
+import eventTypeProvider from "@modules/eventType/providers/eventType.provider";
 import globalApiProvider from "@shared/providers/globalApi.provider";
-import eventTypeProvider from "./providers/eventType.provider";
+import useCrudPage from "@shared/hooks/useCrudPage";
 import type {
-  EventTypeModel,
-  EventTypeResponse,
-} from "@shared/models/dtos/eventType.model";
-import type { EventTypeFormModel } from "./models/eventTypeForm";
+  ClientDataTableResponse,
+  ClientModel,
+} from "@shared/models/dtos/client.model";
 import { useEffect } from "react";
+import columnClient from "./utils/columnClient";
+import ConfirmDeleteModal from "@shared/components/ConfirmDeleteModal";
 
-const EventType = () => {
+const Home = () => {
   const {
     isLoading,
     actionType,
     fetchAllData,
     handleDelete,
-    showModalForm,
-    responseDataTable,
     selectedObjectRow,
-    handleSaveFormModal,
+    responseDataTable,
     handleShowFormModal,
-    handleCloseFormModal,
     handleShowDeleteModal,
     showModalConfirmDelete,
     handleCloseDeleteModal,
     handleShowUpdateFormModal,
-  } = useCrudPage<EventTypeModel, EventTypeResponse, EventTypeFormModel>({
+  } = useCrudPage<ClientModel, ClientDataTableResponse, any>({
     read: globalApiProvider.getAllEventTypes,
     create: eventTypeProvider.createEvent,
     delete: eventTypeProvider.deleteEvent,
@@ -43,13 +38,13 @@ const EventType = () => {
 
   return (
     <div>
-      <h1>Events</h1>
+      <h1>Clientes</h1>
 
       <div>
         <Row className="align-items-center mb-3 flex-column flex-md-row">
           <Col xs="auto">
             <Button variant="primary" onClick={handleShowFormModal}>
-              Add Events
+              Agregar Cliente
             </Button>
           </Col>
         </Row>
@@ -57,14 +52,14 @@ const EventType = () => {
         {isLoading && actionType == "READ" && <Loading />}
         {responseDataTable?.data && (
           <TableContainer
-            columns={columnsEventType}
+            columns={columnClient}
             data={responseDataTable.data}
             deleteAction={handleShowDeleteModal}
             updateAction={handleShowUpdateFormModal}
           />
         )}
       </div>
-
+      {/* 
       <ModalEventTypeForm
         defaultValues={selectedObjectRow}
         title="Nuevo tipo de evento"
@@ -72,15 +67,16 @@ const EventType = () => {
         handleClose={handleCloseFormModal}
         handleSaveChange={handleSaveFormModal}
       />
+       */}
       <ConfirmDeleteModal
-        message="¿Estás seguro de eliminar este tipo de evento? Esta acción afectará los filtros de búsqueda en las reservaciones asociadas a este evento"
+        message={`¿Estás seguro de eliminar al cliente ${selectedObjectRow?.name}? Esta acción afectará los filtros de búsqueda en las reservaciones asociadas a este evento`}
         onConfirm={handleDelete}
         show={showModalConfirmDelete}
         onHide={handleCloseDeleteModal}
-        title="Eliminar Tipo de Evento"
+        title="Eliminar Cliente"
       />
     </div>
   );
 };
 
-export default EventType;
+export default Home;

@@ -18,6 +18,16 @@ const TableLayout = ({
         </tr>
       </thead>
       <tbody>
+        {data.length === 0 && (
+          <tr>
+            <td
+              colSpan={columns.length}
+              className="text-center py-4 text-muted"
+            >
+              Sin datos
+            </td>
+          </tr>
+        )}
         {data.map((row, indexRow) => (
           <tr key={indexRow}>
             {columns.map(({ propertyName, columnFormat }, colIndex) => {

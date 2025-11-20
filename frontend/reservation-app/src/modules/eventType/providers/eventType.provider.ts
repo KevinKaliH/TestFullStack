@@ -1,11 +1,11 @@
 import { fetchUtil } from "@shared/utils/fetch.util";
 import type { EventTypeFormModel } from "../models/eventTypeForm";
 import type { EventTypeCreateResponse } from "../models/eventTypeResponse.model";
-import { ConstEventTypeApiUrls } from "@shared/const/applicationApi.const";
+import ConstApiUrls from "@shared/const/applicationApi.const";
 import type { BaseResponseModel } from "@shared/models/dtos/baseResponse.model";
 
 async function createEvent(data: EventTypeFormModel) {
-  return await fetchUtil<EventTypeCreateResponse>(ConstEventTypeApiUrls.base, {
+  return await fetchUtil<EventTypeCreateResponse>(ConstApiUrls.baseEvent, {
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
@@ -15,8 +15,8 @@ async function createEvent(data: EventTypeFormModel) {
 }
 
 async function deleteEvent(id: number) {
-  return await fetchUtil<BaseResponseModel>(
-    ConstEventTypeApiUrls.baseWithId.replace("{id}", id.toString()),
+  return await fetchUtil<BaseResponseModel<null>>(
+    ConstApiUrls.baseEventWithId.replace("{id}", id.toString()),
     {
       method: "DELETE",
     }
@@ -25,7 +25,7 @@ async function deleteEvent(id: number) {
 
 async function updateEvent(id: number, data: EventTypeFormModel) {
   return await fetchUtil<EventTypeCreateResponse>(
-    ConstEventTypeApiUrls.baseWithId.replace("{id}", id.toString()),
+    ConstApiUrls.baseEventWithId.replace("{id}", id.toString()),
     {
       body: JSON.stringify(data),
       headers: {
