@@ -32,6 +32,17 @@ builder.Services.AddScoped<ReservationService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEventTypeValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173") // URL de tu React app
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -42,8 +53,8 @@ using (var scope = app.Services.CreateScope())
     if (!context.EventTypes.Any())
     {
         context.EventTypes.AddRange(
-            new Domain.Entities.EventType() { Name = "Wedding", Description = "Wedding test"},
-            new Domain.Entities.EventType() { Name = "Birthday", Description = "Birthday test"}
+            new Domain.Entities.EventType() { Name = "Wedding", Description = "Wedding test" },
+            new Domain.Entities.EventType() { Name = "Birthday", Description = "Birthday test" }
             );
         context.SaveChanges();
     }
@@ -56,10 +67,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseMiddleware<BusinessExceptionMiddleware>();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
+app.UseCors("AllowReactApp");
 
 app.MapControllers();
 

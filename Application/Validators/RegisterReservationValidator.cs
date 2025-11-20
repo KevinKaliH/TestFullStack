@@ -9,11 +9,11 @@ namespace Application.Validators
         public RegisterReservationValidator(IClientRepository clientRepo, IEventTypeRepository eventTypeRepo)
         {
             RuleFor(x => x.ClientId)
-            .MustAsync(async (clientId, cancellation) =>
-            {
-                return await clientRepo.Exist(clientId);
-            })
-            .WithMessage("El ClientId no existe.");
+                .MustAsync(async (clientId, cancellation) =>
+                {
+                    return await clientRepo.Exist(clientId);
+                })
+                .WithMessage("El ClientId no existe.");
 
             RuleFor(x => x.EventTypeId)
                 .MustAsync(async (eventTypeId, cancellation) =>
@@ -23,8 +23,8 @@ namespace Application.Validators
                 .WithMessage("El EventTypeId no existe.");
 
             RuleFor(x => x.ReservationDate)
-            .GreaterThanOrEqualTo(DateTime.Today)
-            .WithMessage("La fecha de reservación es obligatoria.");
+                .GreaterThanOrEqualTo(DateTime.Today)
+                .WithMessage("La fecha de reservación es obligatoria.");
 
             RuleFor(x => x.ReservationCode)
                 .NotEmpty()
