@@ -7,6 +7,17 @@ const TableCardTemplate = ({
   deleteAction,
   updateAction,
 }: TableCommonProps) => {
+  if (data.length == 0)
+    return (
+      <Card className="mb-3 shadow-sm">
+        <Card.Body>
+          <p className="text-muted text-center mb-2">
+            No hay información disponible.
+          </p>
+        </Card.Body>
+      </Card>
+    );
+
   return (
     <div className="d-md-none">
       {data.map((row, index) => (

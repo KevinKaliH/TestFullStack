@@ -1,4 +1,5 @@
 ﻿using Application.Contracts;
+using Application.Models.DTOs;
 using Application.Models.Request;
 using Application.Models.Response;
 using Application.Utils;
@@ -11,11 +12,12 @@ namespace Application.Services
         public async Task<EventTypeResponses> GetAll()
         {
             var data = await eventTypeRepository.GetAll();
+            var events = data.Select(i => EventTypeToEventTypeDto(i));
 
             return new EventTypeResponses
             {
                 Success = true,
-                Data = data
+                Data = events
             };
         }
 
@@ -30,7 +32,7 @@ namespace Application.Services
             await eventTypeRepository.Create(newItem);
             return new EventTypeCreatedResponse
             {
-                Data = newItem
+                Data = EventTypeToEventTypeDto(newItem)
             };
         }
 
@@ -54,6 +56,18 @@ namespace Application.Services
                 throw new BusinessException("Not found event type", StatusCodeEnum.NotFound);
 
             return new BaseEmptyResult();
+        }
+
+        private static EventTypeDto EventTypeToEventTypeDto(EventType eventType)
+        {
+            return new EventTypeDto(
+                eventType.Id,
+                eventType.Name,
+                eventType.Description,
+                eventType.CreatedAt,
+                eventType.UpdatedAt,
+                eventType.IsActive
+            );
         }
     }
 }

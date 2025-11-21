@@ -2,17 +2,22 @@ import { Button, Col, Row } from "react-bootstrap";
 import Loading from "@components/Loading";
 import columnsEventType from "./utils/columnsEventType";
 import TableContainer from "@shared/components/TableLayout/TableContainer";
-import ModalEventTypeForm from "./components/ModalEventTypeForm/ModalEventTypeForm";
+import ModalEventTypeForm from "./components/ModalEventTypeForm";
 import ConfirmDeleteModal from "@shared/components/ConfirmDeleteModal";
 import useCrudPage from "@shared/hooks/useCrudPage";
 import globalApiProvider from "@shared/providers/globalApi.provider";
-import eventTypeProvider from "./providers/eventType.provider";
 import type {
   EventTypeModel,
   EventTypeResponse,
 } from "@shared/models/dtos/eventType.model";
 import type { EventTypeFormModel } from "./models/eventTypeForm";
 import { useEffect } from "react";
+import ConstApiUrls from "@shared/const/applicationApi.const";
+import { BaseCrudProvider } from "@shared/providers/baseCrud.provider";
+import { useErrorStore } from "@shared/hooks/useErrorStore";
+import ErrorHttpTemplate from "@shared/components/ErrorHttpTemplate";
+
+const eventTypeProvider = new BaseCrudProvider(ConstApiUrls.baseEvent);
 
 const EventType = () => {
   const {
@@ -32,14 +37,19 @@ const EventType = () => {
     handleShowUpdateFormModal,
   } = useCrudPage<EventTypeModel, EventTypeResponse, EventTypeFormModel>({
     read: globalApiProvider.getAllEventTypes,
-    create: eventTypeProvider.createEvent,
-    delete: eventTypeProvider.deleteEvent,
-    update: eventTypeProvider.updateEvent,
+    create: eventTypeProvider.create,
+    delete: eventTypeProvider.delete,
+    update: eventTypeProvider.update,
   });
 
   useEffect(() => {
     fetchAllData();
   }, []);
+
+  const { showError } = useErrorStore();
+
+  if (isLoading && actionType == "READ") return <Loading />;
+  if (showError) return <ErrorHttpTemplate />;
 
   return (
     <div>
@@ -66,8 +76,11 @@ const EventType = () => {
       </div>
 
       <ModalEventTypeForm
+        modifiedId={selectedObjectRow?.id.toString()}
         defaultValues={selectedObjectRow}
-        title="Nuevo tipo de evento"
+        title={
+          selectedObjectRow ? "Editar tipo de evento" : "Nuevo tipo de evento"
+        }
         show={showModalForm}
         handleClose={handleCloseFormModal}
         handleSaveChange={handleSaveFormModal}

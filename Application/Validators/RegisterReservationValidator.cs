@@ -25,11 +25,6 @@ namespace Application.Validators
             RuleFor(x => x.ReservationDate)
                 .GreaterThanOrEqualTo(DateTime.Today)
                 .WithMessage("La fecha de reservación es obligatoria.");
-
-            RuleFor(x => x.ReservationCode)
-                .NotEmpty()
-                .WithMessage("El código de reservación es obligatorio.")
-                .MaximumLength(50);
         }
     }
 }

@@ -9,6 +9,7 @@ interface FormFieldProps {
   type?: string;
   placeholder?: string;
   as?: string;
+  numericOnly?: boolean;
 }
 
 const FormField = ({
@@ -20,6 +21,7 @@ const FormField = ({
   type = "text",
   placeholder,
   as,
+  numericOnly,
 }: FormFieldProps) => {
   const fieldError = errors[name];
 
@@ -32,6 +34,21 @@ const FormField = ({
         placeholder={placeholder}
         {...register(name, rules)}
         isInvalid={!!fieldError}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (!numericOnly) return;
+          if (
+            ["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"].includes(
+              e.key
+            )
+          )
+            return;
+          if (!/^\d$/.test(e.key)) e.preventDefault();
+        }}
+        onPaste={(e: React.ClipboardEvent<HTMLInputElement>) => {
+          if (!numericOnly) return;
+          const pasteData = e.clipboardData.getData("Text");
+          if (!/^\d*$/.test(pasteData)) e.preventDefault();
+        }}
       />
       <Form.Control.Feedback type="invalid">
         {fieldError?.message?.toString()}

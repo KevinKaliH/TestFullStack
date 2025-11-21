@@ -5,9 +5,3 @@ export interface BaseResponseModel<TResponse> {
   data: TResponse;
 }
 
-export interface BaseDataModel {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  isActive: boolean;
-}

@@ -4,7 +4,7 @@ import TableCardTemplate from "./TableCardTemplate";
 import type { TableCommonProps } from "./tableProperties";
 
 const TableContainer = (props: TableCommonProps) => {
-  const isMobile = useMediaQuery({ maxWidth: 620 });
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   return isMobile ? (
     <TableCardTemplate {...props} />

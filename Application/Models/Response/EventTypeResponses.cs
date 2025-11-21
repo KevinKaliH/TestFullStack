@@ -1,11 +1,11 @@
-﻿using Domain.Entities;
+﻿using Application.Models.DTOs;
 
 namespace Application.Models.Response
 {
-    public class EventTypeResponses : BaseResponse<IEnumerable<EventType>>
+    public class EventTypeResponses : BaseResponse<IEnumerable<EventTypeDto>>
     {
     }
 
 
-    public class EventTypeCreatedResponse: BaseResponse<EventType> { }
+    public class EventTypeCreatedResponse : BaseResponse<EventTypeDto> { }
 }

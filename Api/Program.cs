@@ -5,6 +5,7 @@ using Application.Validators;
 using FluentValidation;
 using Infrastructure;
 using Infrastructure.Repositories;
+using Infrastructure.Seeders;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -36,10 +37,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy
-            .WithOrigins("http://localhost:5173") // URL de tu React app
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -49,15 +49,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ReservationDBContext>();
     context.Database.EnsureCreated();
-
-    if (!context.EventTypes.Any())
-    {
-        context.EventTypes.AddRange(
-            new Domain.Entities.EventType() { Name = "Wedding", Description = "Wedding test" },
-            new Domain.Entities.EventType() { Name = "Birthday", Description = "Birthday test" }
-            );
-        context.SaveChanges();
-    }
+    ReservationSeeder.Seed(context);
 }
 
 // Configure the HTTP request pipeline.

@@ -6,7 +6,6 @@ namespace Application.Models.Request
         public int ClientId { get; set; }
         public int EventTypeId { get; set; }
         public DateTime ReservationDate { get; set; }
-        public string ReservationCode { get; set; }
         public string? Notes { get; set; }
     }
 }

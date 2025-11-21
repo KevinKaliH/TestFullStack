@@ -1,12 +1,12 @@
-const baseUrl = "http://localhost:5047/api";
+const baseUrl = import.meta.env.VITE_BASE_API;
 
 const ConstApiUrls = {
   baseUrl,
   baseEvent: baseUrl + "/EventType",
-  baseEventWithId: baseUrl + "/EventType/{id}",
 
   baseClient: baseUrl + "/Client",
-  baseClientWithId: baseUrl + "/Client/{id}",
+
+  baseReservation: baseUrl + "/Reservation",
 };
 
 export default ConstApiUrls;

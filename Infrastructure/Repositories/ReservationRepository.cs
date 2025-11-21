@@ -36,9 +36,9 @@ namespace Infrastructure.Repositories
                 q = q.Where(r => r.ReservationDate < query.EndDate.Value);
 
             if (query.OrderByReservationDesc == true)
-                q.OrderByDescending(r => r.ReservationDate);
+                q = q.OrderBy(r => r.ReservationDate);
             else
-                q.OrderBy(r => r.ReservationDate);
+                q = q.OrderByDescending(r => r.Id);
 
             var total = await q.CountAsync();
 

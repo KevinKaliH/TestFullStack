@@ -55,9 +55,9 @@ dist/
 build/
 
 # Local dev environment
-*.local
-.env
-.env.*       # ENV files except the ones you want to commit
+# *.local
+# .env
+# .env.*       # ENV files except the ones you want to commit
 
 # Yarn / npm logs
 yarn-debug.log*
@@ -70,7 +70,6 @@ npm-debug.log*
 .pnp.*
 .pnpm-store/
 .cache/
-
 
 ############################
 #         General          #

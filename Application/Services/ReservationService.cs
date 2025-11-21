@@ -15,17 +15,15 @@ namespace Application.Services
 
             return new ReservationDataTableListResponse
             {
-                Data = new DataTableResult<ReservationDataTableDto>
-                {
-                    Data = data,
-                    TotalCount = total
-                },
+                Data = data,
+                TotalCount = total
             };
         }
 
         public async Task<ReservationCreatedResponse> Create(RegisterReservationRequest dto)
         {
             var newReservation = ToEntityRegisterReservation(dto);
+            newReservation.ReservationCode = GenerateCode();
             await reservationRepository.Create(newReservation);
             var reservationDto = ToDtoReservation(newReservation);
 
@@ -34,6 +32,7 @@ namespace Application.Services
                 Data = reservationDto
             };
         }
+        private static string GenerateCode() => Guid.NewGuid().ToString("N")[..8];
 
         public async Task<BaseEmptyResult> Update(int id, RegisterReservationRequest dto)
         {
@@ -61,7 +60,6 @@ namespace Application.Services
                 ClientId = request.ClientId,
                 EventTypeId = request.EventTypeId,
                 ReservationDate = request.ReservationDate,
-                ReservationCode = request.ReservationCode,
                 Notes = request.Notes
             };
         }
@@ -84,7 +82,6 @@ namespace Application.Services
             entity.ClientId = dto.ClientId;
             entity.EventTypeId = dto.EventTypeId;
             entity.ReservationDate = dto.ReservationDate;
-            entity.ReservationCode = dto.ReservationCode;
             entity.Notes = dto.Notes;
         }
     }

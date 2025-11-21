@@ -1,4 +1,5 @@
-import type { BaseDataModel, BaseResponseModel } from "./baseResponse.model";
+import type { BaseDataModel } from "./baseData.model";
+import type { BaseResponseModel } from "./baseResponse.model";
 
 export interface EventTypeResponse
   extends BaseResponseModel<EventTypeModel[]> {}

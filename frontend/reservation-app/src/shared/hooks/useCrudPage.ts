@@ -2,15 +2,13 @@ import { useMemo, useState } from "react";
 import { useCommonFetch } from "@shared/hooks/useCommonFetch";
 import { useErrorModal } from "@shared/contexts/ErrorModalProvider";
 import { useGlobalLoading } from "@shared/contexts/GlobalLoadingProvider";
-import type {
-  BaseDataModel,
-  BaseResponseModel,
-} from "@shared/models/dtos/baseResponse.model";
+import type { BaseResponseModel } from "@shared/models/dtos/baseResponse.model";
 import { formatFluentValidatorError } from "@shared/utils/formatFluentValidatorError";
+import type { BaseDataModel } from "@shared/models/dtos/baseData.model";
 
 interface useCrudPageProps<T> {
   create: (formData: T) => Promise<any>;
-  read: () => Promise<any>;
+  read: (queryParams?: string) => Promise<any>;
   update: (id: number, formData: T) => Promise<any>;
   delete: (id: number) => Promise<any>;
 }
@@ -24,8 +22,7 @@ const useCrudPage = <
 ) => {
   const [responseDataTable, setResponseData] =
     useState<TDataTableResponse | null>(null);
-  const { actionType, isLoading, commonFetch } = useCommonFetch();
-
+  const { error, actionType, isLoading, commonFetch } = useCommonFetch();
   const [showModalForm, setShowModalForm] = useState(false);
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
   const [selectedRowId, setSelectedRow] = useState<number | null>(null);
@@ -41,7 +38,10 @@ const useCrudPage = <
     [selectedRowId, responseDataTable]
   );
 
-  const handleCloseFormModal = () => setShowModalForm(false);
+  const handleCloseFormModal = () => {
+    setSelectedRow(null);
+    setShowModalForm(false);
+  };
   const handleShowFormModal = () => setShowModalForm(true);
   const handleCloseDeleteModal = () => setShowModalConfirmDelete(false);
   const hideModalError = () => setShowModalError(false);
@@ -94,8 +94,8 @@ const useCrudPage = <
     }));
   };
 
-  const fetchAllData = async () => {
-    const response = await commonFetch("READ", () => props.read());
+  const fetchAllData = async (queryParams?: string) => {
+    const response = await commonFetch("READ", () => props.read(queryParams));
     if (response) setResponseData(response);
   };
 
@@ -132,6 +132,7 @@ const useCrudPage = <
     handleDelete,
     actionType,
     isLoading,
+    error,
   };
 };
 

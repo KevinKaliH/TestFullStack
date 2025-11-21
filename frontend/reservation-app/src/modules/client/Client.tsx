@@ -1,7 +1,6 @@
 import { Button, Col, Row } from "react-bootstrap";
 import Loading from "@components/Loading";
 import TableContainer from "@shared/components/TableLayout/TableContainer";
-import eventTypeProvider from "@modules/eventType/providers/eventType.provider";
 import globalApiProvider from "@shared/providers/globalApi.provider";
 import useCrudPage from "@shared/hooks/useCrudPage";
 import type {
@@ -11,6 +10,13 @@ import type {
 import { useEffect } from "react";
 import columnClient from "./utils/columnClient";
 import ConfirmDeleteModal from "@shared/components/ConfirmDeleteModal";
+import ModalClientForm from "./components/ModalClientForm";
+import { BaseCrudProvider } from "@shared/providers/baseCrud.provider";
+import ConstApiUrls from "@shared/const/applicationApi.const";
+import ErrorHttpTemplate from "@shared/components/ErrorHttpTemplate";
+import { useErrorStore } from "@shared/hooks/useErrorStore";
+
+const clientProvider = new BaseCrudProvider(ConstApiUrls.baseClient);
 
 const Home = () => {
   const {
@@ -18,23 +24,30 @@ const Home = () => {
     actionType,
     fetchAllData,
     handleDelete,
+    showModalForm,
     selectedObjectRow,
     responseDataTable,
     handleShowFormModal,
+    handleCloseFormModal,
+    handleSaveFormModal,
     handleShowDeleteModal,
     showModalConfirmDelete,
     handleCloseDeleteModal,
     handleShowUpdateFormModal,
   } = useCrudPage<ClientModel, ClientDataTableResponse, any>({
-    read: globalApiProvider.getAllEventTypes,
-    create: eventTypeProvider.createEvent,
-    delete: eventTypeProvider.deleteEvent,
-    update: eventTypeProvider.updateEvent,
+    read: globalApiProvider.getAllClients,
+    create: clientProvider.create,
+    delete: clientProvider.delete,
+    update: clientProvider.update,
   });
+  const { showError } = useErrorStore();
 
   useEffect(() => {
     fetchAllData();
   }, []);
+
+  if (isLoading && actionType == "READ") return <Loading />;
+  if (showError) return <ErrorHttpTemplate />;
 
   return (
     <div>
@@ -49,7 +62,6 @@ const Home = () => {
           </Col>
         </Row>
 
-        {isLoading && actionType == "READ" && <Loading />}
         {responseDataTable?.data && (
           <TableContainer
             columns={columnClient}
@@ -59,15 +71,16 @@ const Home = () => {
           />
         )}
       </div>
-      {/* 
-      <ModalEventTypeForm
+
+      <ModalClientForm
+        modifiedId={selectedObjectRow?.id.toString()}
         defaultValues={selectedObjectRow}
-        title="Nuevo tipo de evento"
+        title={selectedObjectRow ? "Editar cliente" : "Nuevo cliente"}
         show={showModalForm}
         handleClose={handleCloseFormModal}
         handleSaveChange={handleSaveFormModal}
       />
-       */}
+
       <ConfirmDeleteModal
         message={`¿Estás seguro de eliminar al cliente ${selectedObjectRow?.name}? Esta acción afectará los filtros de búsqueda en las reservaciones asociadas a este evento`}
         onConfirm={handleDelete}

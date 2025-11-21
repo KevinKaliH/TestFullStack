@@ -1,6 +1,7 @@
 export interface ColumnDictionary {
   column: string;
   propertyName: string;
+  maxWidth?: string;
   columnFormat?: (value: any) => React.ReactNode;
 }
 

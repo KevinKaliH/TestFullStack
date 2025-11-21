@@ -14,7 +14,7 @@ const TableLayout = ({
           {columns.map((col) => (
             <th key={col.column}>{col.column}</th>
           ))}
-          <th></th>
+          <th style={{ position: "sticky", right: 0, background: "#fff" }}></th>
         </tr>
       </thead>
       <tbody>
@@ -30,21 +30,23 @@ const TableLayout = ({
         )}
         {data.map((row, indexRow) => (
           <tr key={indexRow}>
-            {columns.map(({ propertyName, columnFormat }, colIndex) => {
-              const value = row[propertyName];
-              const cellContent = columnFormat ? columnFormat(value) : value;
+            {columns.map(
+              ({ propertyName, columnFormat, maxWidth }, colIndex) => {
+                const value = row[propertyName];
+                const cellContent = columnFormat ? columnFormat(value) : value;
 
-              return (
-                <td
-                  key={propertyName + colIndex}
-                  className="text-truncate"
-                  style={{ maxWidth: "180px" }}
-                >
-                  {cellContent}
-                </td>
-              );
-            })}
-            <td>
+                return (
+                  <td
+                    key={propertyName + colIndex}
+                    className="text-truncate"
+                    style={{ maxWidth: maxWidth }}
+                  >
+                    {cellContent}
+                  </td>
+                );
+              }
+            )}
+            <td style={{ position: "sticky", right: 0, background: "#fff" }}>
               <div className="d-flex gap-2 flex-wrap">
                 <Button
                   variant="primary"

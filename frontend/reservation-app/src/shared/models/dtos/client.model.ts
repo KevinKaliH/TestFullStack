@@ -1,4 +1,5 @@
-import type { BaseDataModel, BaseResponseModel } from "./baseResponse.model";
+import type { BaseDataModel } from "./baseData.model";
+import type { BaseResponseModel } from "./baseResponse.model";
 
 export interface ClientDataTableResponse
   extends BaseResponseModel<ClientModel[]> {}
@@ -8,5 +9,3 @@ export interface ClientModel extends BaseDataModel {
   email: string;
   phone: string;
 }
-
-export interface ClientModel {}

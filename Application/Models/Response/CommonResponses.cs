@@ -8,13 +8,8 @@ namespace Application.Models.Response
 
     public class ClientCreatedResponse : BaseResponse<ClientDTO> { }
 
-    public class ReservationDataTableListResponse: BaseResponse<DataTableResult<ReservationDataTableDto>>
+    public class ReservationDataTableListResponse: BaseResponse<IEnumerable<ReservationDataTableDto>>
     {
-    }
-
-    public class DataTableResult<T>
-    {
-        public IEnumerable<T> Data { get; set; } = [];
         public int TotalCount { get; set; }
     }
 
