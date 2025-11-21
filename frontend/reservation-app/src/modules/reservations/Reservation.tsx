@@ -69,11 +69,10 @@ const Reservation = () => {
           handleClose={handleToggleFilterForm}
           handleConfirmFilter={handleConfirmFilter}
         />
-
         <ModalReservationForm
-          title={"Nueva Reservación"}
           show={showReservationFormModal}
           modifiedId={selectedObjectRow?.reservationCode}
+          title={selectedObjectRow ? "Editar reservación" : "Nueva Reservación"}
           clients={clients}
           events={eventTypes}
           defaultValues={selectedObjectRow}

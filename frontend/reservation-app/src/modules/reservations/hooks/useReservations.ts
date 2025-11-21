@@ -78,6 +78,7 @@ const useReservations = () => {
   };
   const handleCloseFormModal = () => {
     setShowReservationFormModal(false);
+    setSelectedRow(null);
   };
 
   const handleSaveReservationForm = async (formData: ReservationFormModel) => {
